@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<style>
+footer {
+    background-color: #777;
+    padding: 10px;
+    text-align: center;
+    color: white;
+}
+
+section {
+    display: -webkit-flex;
+    display: flex;
+    position: center;
+}
+
+.row{
+	width: 100%;
+	display: -webkit-flex;
+    display: flex;
+  	text-align: center;
+  	
+}
+</style>
+	
+	<head>
+		<object th:include="fragments/fragment :: title" th:remove="tag"></object>
+		<object th:include="fragments/fragment :: css" th:remove="tag"></object>
+		<object th:include="fragments/fragment :: js" th:remove="tag"></object>
+	</head>
+	
+	<body>	
+		<nav th:replace="fragments/fragment :: navbar"></nav>
+		<section>
+		<div class="container-fluid" style="background-color:powderblue;">
+		<h2 style="text-align:center;">Sistem Informasi Kepegawaian</h2>
+		<p style="text-align:center;">Selamat datang di Sistem Informasi Kepegawaian</p>
+			<div class="row">
+				<div class="col-md">
+					<div class="card">
+						<div class="card-header">
+							Lihat Data Pegawai berdasarkan NIP
+						</div>
+						<form th:action="@{/pegawai}" method="GET">
+							<div class="card-body">
+								<label for="nip"> Masukan Nomor Induk Pegawai: </label>
+								<input type="text" name = "nip" class="form-control"/><br>
+								<button type="submit" class="btn btn-primary"> Lihat </button>
+							</div>
+						</form>
+					</div>
+					
+					<br>
+					<div class="card">
+						<div class="card-header">
+							Ubah Data Pegawai
+						</div>
+						<form th:action="@{/pegawai/ubah}" method="GET">
+							<div class="card-body">
+								<label for="nip"> Masukan Nomor Induk Pegawai: </label>
+								<input type="text" name = "nip" class="form-control"/><br>
+								<button type="submit" class="btn btn-primary"> Ubah </button>
+							</div>
+						</form>
+					</div>
+					
+					<br>
+					<div class="card">
+						<div class="card-header">
+							Lihat Detail Jabatan
+						</div>
+						<form id="pilih" >
+							<div class="card-body">
+								<td> Pilih Jabatan: </td><br>
+								<select id="jabatan">
+									<th th:each="jabatan : ${models}">
+										<option value="" selected disabled hidden> --- Nama Jabatan --- </option>
+										<option th:value="${jabatan.id}" th:text="${jabatan.nama}"></option>
+									</th>
+								</select><br><br>
+								<button type="submit" class="btn btn-primary" > Lihat </button>
+							</div>
+						</form>
+					</div>
+					
+					<br>
+					<div class="card">
+						<div class="card-header">
+							Lihat Pegawai Termuda dan Tertua
+						</div>
+						<form id="myForm">
+							<div class="card-body">
+								<td> Pilih Instansi	: </td><br>
+								<select id="cari">
+									<th th:each="provinsi : ${model}">
+										<option value="" selected disabled hidden> --- Nama Instansi --- </option>
+										<option th:each="instansi : ${provinsi.instansiList}" th:value="${provinsi.id + ' ' + instansi.id}" th:text="${instansi.nama + ' - ' + provinsi.nama}"></option>
+									</th>
+								</select>
+								<br><br>
+								<button type="submit" class="btn btn-primary"> Lihat </button>
+							</div>
+						</form>
+					</div><br>
+				</div>
+			</div>
+			
+		</div>
+		</section>
+		<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+		<script>
+		$(document).ready(function() {   		    
+		    $('#myForm').submit(function(e) {
+	            
+	            e.preventDefault();
+	            var data = $('#cari').val().split(" ")
+	            var urls = "/pegawai/termuda-tertua?idProvinsi=" + data[0] +"&idInstansi=" + data[1];
+	            alert(urls);
+
+	            window.location.href = urls;
+
+	        });
+		    
+		    $('#pilih').submit(function(e) {
+	            
+	            e.preventDefault();
+	            var data = $('#jabatan').val();
+	            var urls = "/jabatan/view?idJabatan=" + data;
+	            
+
+	            window.location.href = urls;
+
+		    
+		} );
+		    
+		});
+
+		</script>
+		<footer>
+		  <i>&COPY; Rismanti Amalia N</i>
+		</footer>
+	</body>
+</html>

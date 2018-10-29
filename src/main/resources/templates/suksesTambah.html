@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<style>
+
+nav{
+	min-height: 88vh;
+}
+
+footer {
+    background-color: #777;
+    padding: 10px;
+    text-align: center;
+    color: white;
+    height: 6vh;
+}
+
+body {
+	padding: 30px;
+    display: -webkit-flex;
+    display: flex;
+    background-color: powderblue;
+    position: center;
+}
+</style>
+
+	<head>
+		<object th:include="fragments/fragment :: title" th:remove="tag"></object>
+		<object th:include="fragments/fragment :: css" th:remove="tag"></object>
+		<object th:include="fragments/fragment :: js" th:remove="tag"></object>
+	</head>
+	
+	<body>	
+		<nav th:replace="fragments/fragment :: navbar"></nav>
+		<div class="notice-success">
+			<th th:text="${sukses}"></th>
+		</div> 
+	</body>
+	<footer>
+		  <i>&COPY; Rismanti Amalia N</i>
+	</footer>
+</html>

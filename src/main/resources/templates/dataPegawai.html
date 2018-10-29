@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<style>
+	section{
+		background-color: powderblue;
+	    padding: 30px;
+	    padding-top: 60px;
+	    padding-bottom: 60px;
+	    text-align: center;
+	    font-size:25px;
+	    color: black;
+	}
+	
+	footer {
+	    background-color: #777;
+	    padding: 10px;
+	    text-align: center;
+	    color: white;
+	}
+	.card.my-5{
+			border-color:black; 
+			border-width: 5px;
+			background-color:lightgrey;
+		}
+	
+	</style>
+	
+	<head>
+		<object th:include="fragments/fragment :: title" th:remove="tag"></object>
+		<object th:include="fragments/fragment :: css" th:remove="tag"></object>
+		<object th:include="fragments/fragment :: js" th:remove="tag"></object>
+	</head>
+	
+	<body>	
+		<nav th:replace="fragments/fragment :: navbar"></nav>
+		<section>
+	       <h1 th:text="'Lihat Data Pegawai - ' + ${pegawai.nip}"></h1>
+			<div class ="card my-5">
+				<table class = "table">
+				<tbody>
+				<tr>
+				<th scope="row">Nama :</th>
+				<td th:text="${pegawai.nama}"></td>
+				</tr>
+				
+				
+				<tr>
+				<th scope="row">NIP :</th>
+				<td th:text="${pegawai.nip}"><td>
+				</tr>
+				
+				<tr>
+				<th scope="row">Tempat Lahir :</th>
+				<td th:text="${pegawai.tempat_lahir}"></td>
+				</tr>
+				
+				<tr>
+				<th scope="row">Tanggal Lahir :</th>
+				<td th:text="${pegawai.tanggal_lahir}"></td>
+				</tr>
+				
+				<tr>
+				<th scope="row">Tahun Masuk :</th>
+				<td th:text="${pegawai.tahun_masuk}"></td>
+				</tr>
+				
+				
+				<tr>
+				<th scope="row">Instansi:</th>
+				<td th:text="${pegawai.instansi.nama}"></td>
+				</tr>
+				
+				<tr>
+				<th scope="row">Jabatan:</th>
+					<td>
+						<ul>
+							<li th:each="jabatan : ${pegawai.jabatanList}">
+								<div th:text="${jabatan.nama}"></div>
+							</li>
+						</ul>
+					</td>
+				</tr>
+				
+				<tr>
+				<th scope="row">Gaji Pegawai:</th>
+				<td th:text="'Rp ' + ${gaji}"></td>
+				</tr>
+				
+				</tbody>
+				</table>
+				
+				<div style="float:right; clear:none; margin-right: 15px; padding: 10px;">
+					<a th:href="@{'/pegawai/ubah?nip=' + ${pegawai.nip}}" 
+					style="color:white!important;" class="btn btn-primary">
+						Ubah </a>
+				</div>
+			</div>
+		</section>
+		<footer>
+		  <i>&COPY; Rismanti Amalia N</i>
+		</footer>
+	</body>
+</html>

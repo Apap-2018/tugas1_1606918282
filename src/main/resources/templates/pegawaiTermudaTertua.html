@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<style>
+	footer {
+	    background-color: #777;
+	    padding: 10px;
+	    text-align: center;
+	    color: white;
+	    height: 6vh;
+	}
+	
+	#content {
+		padding: 30px;
+	    background-color: powderblue;
+	    position: center;
+	    min-height: 88vh;
+	}
+	
+	
+	h1{
+		text-align: center;
+	}
+	
+	#muda{
+		
+		background-color: pink;
+		border: 3px solid black;
+		float: left;
+	}
+	
+	#mudaTab{
+		background-color: transparent;
+		border: 5px solid black;
+	}
+	
+	#tua{
+		background-color: lightyellow;
+		border: 3px solid black;
+		float: right;
+		
+	}
+	
+	#tuaTab{
+		background-color: transparent;
+		border: 5px solid black;
+	}
+	</style>
+	
+	<head>
+		<object th:include="fragments/fragment :: title" th:remove="tag"></object>
+		<object th:include="fragments/fragment :: css" th:remove="tag"></object>
+		<object th:include="fragments/fragment :: js" th:remove="tag"></object>
+	</head>
+	
+	<body>	
+		<nav th:replace="fragments/fragment :: navbar"></nav>
+			
+		<div id="content" class="container-full-bg">
+			 <div class="row" >
+				  <div class="col-sm-6" id="muda">
+	    			<h1>Data Pegawai Termuda</h1>
+	    			        <div class="card my-5" id="mudaTab">
+					            <table class="table">
+					                <tbody>
+					                    <tr>
+					                        <th scope="row">NIP</th>
+					                        <td th:text="${pegawaiTermuda.nip}"></td>
+					                    </tr>
+					                    <tr>
+					                        <th scope="row">Nama</th>
+					                        <td th:text="${pegawaiTermuda.nama}"></td>
+					                    </tr>
+					                    <tr>
+					                        <th scope="row">Tempat Lahir</th>
+					                        <td th:text="${pegawaiTermuda.tempat_lahir}"></td>
+					                    </tr>
+					                    <tr>
+					                        <th scope="row">Tanggal Lahir</th>
+					                        <td th:text="${pegawaiTermuda.tanggal_lahir}"></td>
+					                    </tr>
+					                    <tr>
+					                        <th scope="row">Tahun Masuk</th>
+					                        <td th:text="${pegawaiTermuda.tahun_masuk}"></td>
+					                    </tr>
+					                     <tr>
+					                        <th scope="row">Nama Instansi</th>
+					                        <td th:text="${pegawaiTermuda.instansi.nama + ' - ' + pegawaiTermuda.instansi.provinsi.nama}"></td>
+					                    </tr>
+					                    <tr>
+					                        <th scope="row">Jabatan</th>
+					                        <td>
+					                            <ul>
+					                                <li th:each="jabatan: ${pegawaiTermuda.jabatanList}">
+					                                    <div th:text="${jabatan.nama}"></div>
+					                                </li>
+					                            </ul>
+					                        </td>
+					                    </tr>
+					                    <tr>
+					                        <th scope="row">Gaji</th>
+					                        <td th:text="'Rp ' + ${#numbers.formatInteger(pegawaiTermuda.getGaji(), 0)}"></td>
+					                    </tr>
+					                </tbody>
+					            </table>
+					        </div>
+	    		</div>
+    		
+	    		<div class="col-sm-6" id="tua">
+	    			<h1>Data Pegawai Tertua</h1>
+	    			        <div class="card my-5" id="tuaTab">
+					            <table class="table">
+					                <tbody>
+					                    <tr>
+					                        <th scope="row">NIP</th>
+					                        <td th:text="${pegawaiTertua.nip}"></td>
+					                    </tr>
+					                    <tr>
+					                        <th scope="row">Nama</th>
+					                        <td th:text="${pegawaiTertua.nama}"></td>
+					                    </tr>
+					                    <tr>
+					                        <th scope="row">Tempat Lahir</th>
+					                        <td th:text="${pegawaiTertua.tempat_lahir}"></td>
+					                    </tr>
+					                    <tr>
+					                        <th scope="row">Tanggal Lahir</th>
+					                        <td th:text="${pegawaiTertua.tanggal_lahir}"></td>
+					                    </tr>
+					                    <tr>
+					                        <th scope="row">Tahun Masuk</th>
+					                        <td th:text="${pegawaiTertua.tahun_masuk}"></td>
+					                    </tr>
+					                     <tr>
+					                        <th scope="row">Nama Instansi</th>
+					                        <td th:text="${pegawaiTertua.instansi.nama + ' - ' + pegawaiTermuda.instansi.provinsi.nama}"></td>
+					                    </tr>
+					                    <tr>
+					                        <th scope="row">Jabatan</th>
+					                        <td>
+					                            <ul>
+					                                <li th:each="jabatan: ${pegawaiTertua.jabatanList}">
+					                                	<div th:text="${jabatan.nama}"></div>
+					                                </li>
+					                            </ul>
+					                        </td>
+					                    </tr>
+					                    <tr>
+					                        <th scope="row">Gaji</th>
+					                        <td th:text="'Rp ' + ${#numbers.formatInteger(pegawaiTertua.getGaji(), 0)}"></td>
+					                    </tr>
+					                </tbody>
+					            </table>
+					        </div>
+	    		</div>
+			</div>
+		</div>
+	<footer>
+		  <i>&COPY; Rismanti Amalia N</i>
+	</footer>
+	</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<style>
+	
+	footer {
+	    background-color: #777;
+	    padding: 10px;
+	    text-align: center;
+	    color: white;
+	    height: 6vh;
+	}
+	
+	#content {
+		padding: 30px;
+	    background-color: powderblue;
+	    position: center;
+	    min-height: 88vh;
+	}
+	
+	h2, h3{
+		text-align: center;
+	}
+	
+	.card.my-5{
+			border-color:black; 
+			border-width: 5px;
+			background-color: lightgrey;
+	}
+	
+	
+	</style>
+	
+	<head>
+		<object th:include="fragments/fragment :: title" th:remove="tag"></object>
+		<object th:include="fragments/fragment :: css" th:remove="tag"></object>
+		<object th:include="fragments/fragment :: js" th:remove="tag"></object>
+	</head>
+	
+	<body>	
+		<nav th:replace="fragments/fragment :: navbar"></nav>
+		<div id="content" class="container-full-bg">	
+		
+			<h2> Data berhasil diubah </h2><br>
+			<h3 th:text="${'Detail Jabatan ' + jabatan.nama}"></h3>
+				<div class="card my-5">
+				
+		            <table class="table">
+		                <tbody>
+		                <div th:if="${jabatan}">
+		                    <tr>
+		                        <th scope="row">Nama:</th>
+		                        <td th:text="${jabatan.nama}"></td>
+		                    </tr>
+		                    <tr>
+		                        <th scope="row">Deskripsi:</th>
+		                        <td th:text="${jabatan.deskripsi}"></td>
+		                    </tr>
+		                    <tr>
+		                        <th scope="row">Gaji Pokok:</th>
+		                        <td th:text="'Rp ' + ${jabatan.gaji_pokok}"></td>
+		                    </tr>
+		                    <tr>
+		                        <th scope="row">Jumlah Pegawai:</th>
+		                        <td th:text="${jabatan.getPegawaiList().size()}"></td>
+		                    </tr>
+		                 </div>
+		                </tbody>
+		            </table>
+		        </div>
+		 </div>
+		     
+		
+	<footer>
+		  <i>&COPY; Rismanti Amalia N</i>
+	</footer>
+	</body>
+</html>

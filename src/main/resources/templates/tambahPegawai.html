@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<style>
+	footer {
+	    background-color: #777;
+	    padding: 10px;
+	    text-align: center;
+	    color: white;
+	    height: 6vh;
+	}
+	
+	#content {
+		padding: 30px;
+	    display: -webkit-flex;
+	    background-color: powderblue;
+	    position: center;
+	    min-height: 88vh;
+	}
+	
+	label{
+		font-size:20px;
+	}
+	
+	input[type=text] {
+	    width: 100%;
+	    padding: 12px 20px;
+	    margin: 8px 0;
+	    box-sizing: border-box;
+	    border: none;
+	    background-color: darkgrey;
+	    color: white;
+	}
+	
+	input[type=date] {
+	    width: 100%;
+	    padding: 12px 20px;
+	    margin: 8px 0;
+	    box-sizing: border-box;
+	    border: none;
+	    background-color: darkgrey;
+	    color: white;
+	}
+	
+	#myForm{
+		background-color: powderblue;
+		padding: 12px 20px;
+	}
+	
+	.card.my-8{
+		border-color:black; 
+		border-width: 5px;
+	}
+	
+	</style>
+	
+	<head>
+		<object th:include="fragments/fragment :: title" th:remove="tag"></object>
+		<object th:include="fragments/fragment :: css" th:remove="tag"></object>
+		<object th:include="fragments/fragment :: js" th:remove="tag"></object>
+	</head>
+	
+	<body>	
+		<nav th:replace="fragments/fragment :: navbar"></nav>	
+			<div id="content" class="container-full-bg">
+		    <div class="container vertical-center" style="padding-top: 32px;">
+		    <h1 style="text-align: center;" th:text="'Tambah Pegawai'" ></h1>
+		    	<div id="sukses"></div>	
+		        <div class="card my-8">	
+				<form id="myForm" >
+					<div class="form-group">
+							<div class="form-group">
+			            		<label for="nama">Nama :</label>
+			            		<input type="text" name="nama" class="form-control">
+			            	</div>
+							<div class="form-group">
+			            		<label for="tempat_lahir">Tempat Lahir :</label>
+			            		<input type="text" name="tempat_lahir" class="form-control">
+			            	</div>
+			            	<div class="form-group">
+			            		<label for="tanggal_lahir">Tanggal Lahir :</label>
+			            		<input type="date" name="tanggal_lahir" class="form-control">
+			            	</div>
+			            	<div class="form-group">
+			            		<label for="tahun_masuk">Tahun Masuk :</label>
+			            		<input type="text" name="tahun_masuk" class="form-control">
+			            	</div>
+							<div class="form-group">
+			            		<label for="provinsi">Provinsi :</label>
+			            		<select class="form-control" id="provinsi" style=" background-color: darkgrey; color: white">
+			            		  <option value="" selected disabled hidden >-- Nama Provinsi --</option>
+								  <option th:each="provinsi : ${provinsi}" 
+										  th:value="${provinsi.id}" 
+										  th:text="${provinsi.nama}">
+								  </option>
+								</select>
+			            	</div>
+			            	<div class="form-group">
+			            		<label for="instansi">Instansi :</label>
+			            		<select class="form-control" id="instansi" style=" background-color: darkgrey; color: white">
+			            		  <option value="" selected disabled hidden>-- Nama Instansi --</option>
+								</select>
+			            	</div>
+							<div class="form-group">
+								<label> Jabatan: </label>
+									<div id="tmpJabatan">
+										<select  class="form-control" id="jabatan0" style=" background-color: darkgrey; color: white">
+			    							<option  th:each="jabatan : ${jabatan}" th:value="${jabatan.id}" th:text="${jabatan.nama}"></option>
+										</select>
+									</div>
+									<div id="test" style="color:red!important; font-weight:bold;">
+										<a>Tambah Jabatan Lainnya</a>
+									</div>
+			            	</div>
+
+							<div class="card-body">
+			                	<input type="submit" name="submit" class="btn btn-primary"  value="Tambah">
+			            	</div>
+			           </div>
+			       </form>
+				</div>
+			</div>
+		</div>
+				
+				
+				
+				
+<script src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
+ 
+				
+<script>
+    $(document).ready(function() {
+        $('#provinsi').change(function() {
+
+            var prov = $('#provinsi').val();
+            
+
+            var urls = '/get/instansi/' + prov;
+            
+
+            var data = '';
+
+            $.ajax({
+                url: urls,
+                type: 'GET',
+
+                success: function(result) {
+                    console.log(result);
+                    var instansi_ava = result.instansi.split(" // ");
+                    $('option.instansi').detach(); //hapus
+                    for (var i = 0; i < instansi_ava.length - 1; i += 2) {
+                        $('#instansi').append('<option class="instansi" value="' + instansi_ava[i] + '">' + instansi_ava[i + 1] + '</option>"');
+                    }
+                },
+
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+
+        });
+
+        var counter = 1;
+
+        $("#test").click(function() {
+            $("#tmpJabatan").append(
+                '<select id="jabatan' + counter + '">' +
+                '<option  value="1">Kepala Dinas</option>' +
+                '<option  value="2">Kepala Bidang Humas</option>' +
+                '<option  value="3">Kepala Bidang Pengadaan Logistik</option>' +
+                '<option  value="4">Kepala Bidang Pengaduan dan Layanan Masyarakat</option>' +
+                '<option  value="5">Kepala Bidang Teknologi Informasi</option>' +
+                '<option  value="6">Kepala Bidang Kesekretariatan Umum</option>' +
+                '<option  value="7">Kepala Bidang Keuangan</option>' +
+                '<option  value="8">Kepala Bidang Perencanaan dan Keuangan</option>' +
+                '<option  value="9">Kepala Divisi Umum dan Kepegawaian</option>' +
+                '<option  value="10">Kepala Divisi Sarana dan Prasarana</option>' +
+                '<option  value="11">Kepala Divisi Pemberdayaan Masyarakat</option>' +
+                '<option  value="12">Kepala Divisi Tata Tertib dan Pengawasan</option>' +
+                '<option  value="13">Seksi Penyuluhan</option>' +
+                '<option  value="14">Seksi Pengawasan dan Pengendalian</option>' +
+                '<option  value="15">Seksi Pengembangan dan Penelitian</option>' +
+                '<option  value="16">Seksi Kerjasama dan Promosi</option>' +
+                '<option  value="17">Seksi Ketertiban Hukum</option>' +
+                '<option  value="18">Seksi Pengawasan dan Evaluasi</option>' +
+                '<option  value="19">Staf Bidang</option>' +
+                '<option  value="20">Staf Divisi</option>' +
+                '</select><br>');
+            counter++;
+        });
+
+        (function($) {
+            $.fn.serializeFormJSON = function() {
+
+                var o = {};
+                var a = this.serializeArray();
+                $.each(a, function() {
+                    if (o[this.name]) {
+                        if (!o[this.name].push) {
+                            o[this.name] = [o[this.name]];
+                        }
+                        o[this.name].push(this.value || '');
+                    } else {
+                        o[this.name] = this.value || '';
+                    }
+                });
+                return o;
+            };
+        })(jQuery);
+
+
+        $('#myForm').submit(function(e) {
+            
+            e.preventDefault();
+            
+            var data = $(this).serializeFormJSON();
+
+            var joblist = [];
+
+            if (counter > 1) {
+                for (var i = 0; i < counter; i++) {
+                    var item = '#jabatan' + i
+                    joblist.push($(item).val())
+                }
+            } else {
+                joblist.push($('#jabatan0').val())
+            }
+
+            var additional = {
+                provinsi: $('#provinsi').val(),
+                id_instansi: $('#instansi').val(),
+                jabatan: joblist,
+                nip: generateNip(data),
+            }
+            
+            $.extend(data, additional);
+            
+            console.log(data);
+            
+            pegawai = JSON.stringify({
+                'pegawai': data
+            });
+
+            console.log(pegawai);
+
+            var urls = "/pegawai/tambah/" + $('#instansi').val();
+            
+
+            $.ajax({
+
+                url: urls,
+
+                type: 'POST',
+
+                data: pegawai,
+
+                dataType: "html",
+
+                contentType: 'application/json',
+
+                mimeType: 'application/json',
+
+                success: function(data) {
+                    console.log(data);
+                    $('#myForm').detach();
+                    $('#sukses').append(data);
+                    
+                    return false;
+                }
+            });
+
+
+        });
+        
+        function generateNip(data){
+        	thn_masuk = data.tahun_masuk
+        	date = data.tanggal_lahir.slice(8,10) + data.tanggal_lahir.slice(5,7) + data.tanggal_lahir.slice(2,4);
+        	return ($('#instansi').val() + date + thn_masuk);
+        }
+        
+    });
+</script>
+	<footer>
+		  <i>&COPY; Rismanti Amalia N</i>
+	</footer>
+	</body>
+	</html>
+	

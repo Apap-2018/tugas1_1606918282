@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<style>
+
+#content{
+	min-height: 88vh;
+}
+
+footer {
+    background-color: #777;
+    padding: 10px;
+    text-align: center;
+    color: white;
+    height: 6vh;
+}
+
+footer {
+    background-color: #777;
+    padding: 10px;
+    text-align: center;
+    color: white;
+}
+
+.container-full-bg {
+	padding: 30px;
+    display: -webkit-flex;
+    background-color: powderblue;
+    position: center;
+}
+
+h1{
+	text-align: center;
+	font-size: 25px;
+}
+</style>
+	
+	<head>
+		<object th:include="fragments/fragment :: title" th:remove="tag"></object>
+		<object th:include="fragments/fragment :: css" th:remove="tag"></object>
+		<object th:include="fragments/fragment :: js" th:remove="tag"></object>
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css"/>
+		
+	</head>
+	
+	<body>	
+		<nav th:replace="fragments/fragment :: navbar"></nav>
+		<div id="content" class="container-full-bg">
+		    <div class="container vertical-center" style="padding-top: 32px;">
+		        <h1>Lihat Jumlah Pegawai</h1>
+				<table id="example" class="display" style="width:100%">
+		        <thead>
+		            <tr>
+		                <th>Nama</th>
+		                <th>Jumlah Pegawai</th>
+		            </tr>
+		        </thead>
+		        <tbody id="tablebody">
+		            <tr th:each="jabatan : ${jabatan}">
+		            	<td th:text="${jabatan.nama}"></td>
+		            	<td th:text="${#arrays.length(jabatan.pegawaiList)}"></td>
+		            </tr>
+		        </tbody>
+		    </table>
+		   	</div>
+		 </div>
+    	<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+		<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>
+		<script>
+		$(document).ready(function() {
+		    $('#example').DataTable( {
+		        initComplete: function () {
+		            this.api().columns().every( function () {
+		                var column = this;
+		                var select = $('<select><option value=""></option></select>')
+		                    .appendTo( $(column.footer()).empty() )
+		                    .on( 'change', function () {
+		                        var val = $.fn.dataTable.util.escapeRegex(
+		                            $(this).val()
+		                        );
+		 
+		                        column
+		                            .search( val ? '^'+val+'$' : '', true, false )
+		                            .draw();
+		                    } );
+		 
+		                column.data().unique().sort().each( function ( d, j ) {
+		                    select.append( '<option value="'+d+'">'+d+'</option>' )
+		                } );
+		            } );
+		        }
+		    } );
+		    
+		} );
+
+		</script>
+	<footer>
+		  <i>&COPY; Rismanti Amalia N</i>
+	</footer>
+	</body>
+</html>
